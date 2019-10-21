@@ -1,12 +1,10 @@
 require 'bundler'
 Bundler.require
 
-$:.unshift File.expand_path("./../lib", __FILE__)
-
 class Gossip
 attr_accessor :author, :content
 
-    def initialize (gossip_author,gossip_content)
+    def initialize (gossip_author, gossip_content)
         @author = gossip_author
         @content = gossip_content
     end
@@ -19,10 +17,14 @@ attr_accessor :author, :content
 
     def self.all
         all_gossips=Array.new
-            CSV.read('db/gossip.csv').each do |csv_line|
+            CSV.read('db/gossip.csv').each_with_index do |csv_line|
                 all_gossips << Gossip.new(csv_line[0], csv_line[1])
         end
-        return all_gossips
+            return all_gossips
+    end
+
+    def self.find(id)
+            return self.all[id.to_i]
     end
 end
 

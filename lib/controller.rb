@@ -1,6 +1,6 @@
 require 'bundler'
 Bundler.require
-
+require 'gossip'
 
 
 class ApplicationController < Sinatra::Base
@@ -17,4 +17,9 @@ class ApplicationController < Sinatra::Base
         Gossip.new(params['gossip_author'],params['gossip_content']).save
         redirect '/'
     end
+
+    get '/gossips/:id' do
+        erb :show, locals: {gossip_id: Gossip.find(params["id"])}
+      end
+
 end
